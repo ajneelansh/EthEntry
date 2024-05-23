@@ -5,6 +5,7 @@ import {ERC721} from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 
 contract ethEntry is ERC721 {
 
+
     address public owner;
 
     modifier onlyOwner() {

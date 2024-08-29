@@ -18,7 +18,7 @@ const EthEntry = new ethers.Contract(contractAddress, ethEntryABI, provider);
 
     const callContractFunction = async () => {
         if (typeof window.ethereum === 'undefined') {
-            console.error('MetaMask not detected');
+            console.error('MetaMask not found , Please Install the Wallet Extension');
             return;
         }
 

@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/EthEntry/static/css/main.e22293f9.css",
+    "main.js": "/EthEntry/static/js/main.7263f0dd.js",
+    "static/media/index.cjs": "/EthEntry/static/media/index.61e57bb6b4fd6fcd0938.cjs",
+    "index.html": "/EthEntry/index.html",
+    "main.e22293f9.css.map": "/EthEntry/static/css/main.e22293f9.css.map",
+    "main.7263f0dd.js.map": "/EthEntry/static/js/main.7263f0dd.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e22293f9.css",
+    "static/js/main.7263f0dd.js"
+  ]
+}

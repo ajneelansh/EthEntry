@@ -1,9 +1,10 @@
-// SPDX-License-Identifier: UNLICENSED
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.17;
 
 import {ERC721} from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 
 contract ethEntry is ERC721 {
+
 
     address public owner;
 
@@ -67,7 +68,7 @@ contract ethEntry is ERC721 {
 
 
     function withdraw() public onlyOwner {
-        (bool success, ) = owner.call{value: address(this).balance}("");
+        (bool success,) = owner.call{value: address(this).balance}("");
         require(success);
     }
 }

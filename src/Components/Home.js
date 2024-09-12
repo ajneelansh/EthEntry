@@ -1,61 +1,60 @@
 import React, { useState, useRef } from 'react';
 import { Dialog } from '@headlessui/react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
-import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
-import ethEntryABI from './ethEntry.json'; // Corrected import path
-const ethers = require('ethers');
+import { BrowserRouter, Link } from "react-router-dom";
+import { BrowserProvider, Contract } from 'ethers';  
+import ethEntryABI from './ethEntry.json'; 
 
+const contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
 
+const navigation = [
+    { name: 'Organize Event', href: '/ExpertConsultation' },
+    { name: 'About Us', href: '/' },
+];
 
-const contractAddress =  "0x5FbDB2315678afecb367f032d93F642f64180aa3";
-const provider = new ethers.providers.Web3Provider(window.ethereum);
-const EthEntry = new ethers.Contract(contractAddress, ethEntryABI, provider);
+const callContractFunction = async () => {
+    if (typeof window.ethereum === 'undefined') {
+        console.error('MetaMask not found, Please Install the Wallet Extension');
+        return;
+    }
 
-    const navigation = [
-        { name: 'Organize Event', href: '/ExpertConsultation' },
-        { name: 'About Us', href: '/' },
-    ];
-
-    const callContractFunction = async () => {
-        if (typeof window.ethereum === 'undefined') {
-            console.error('MetaMask not found , Please Install the Wallet Extension');
-            return;
-        }
-
-        try {
-            // Request account access
-            await window.ethereum.request({method: 'eth_requestAccounts'});
-
-            // Get the signer
-            const provider = new ethers.providers.Web3Provider(window.ethereum);
-            const signer = provider.getSigner();
-
-            // Connect to the contract using the signer
-            const EthEntryWithSigner = new ethers.Contract(contractAddress, ethEntryABI, signer);
-
-            // Call the contract function
-            const tx = await EthEntryWithSigner.buyTicket(1);
-            await tx.wait(); // Wait for the transaction to be mined
-            console.log('Transaction successful:', tx.hash);
-        } catch (error) {
-            console.error('Error calling smart contract function:', error);
-        }
-    };
-
-    const WithdrawFunds = async () => {
     try {
+        // Request account access
+        await window.ethereum.request({ method: 'eth_requestAccounts' });
+
+        // Get the signer
+        const provider = new BrowserProvider(window.ethereum);  
+        const signer = await provider.getSigner(); 
+
         // Connect to the contract using the signer
-        const signer = provider.getSigner();
-        const contract = new ethers.Contract(contractAddress, ethEntryABI, signer);
+        const EthEntryWithSigner = new Contract(contractAddress, ethEntryABI, signer);
+
+        // Call the contract function
+        const tx = await EthEntryWithSigner.buyTicket(1);
+        await tx.wait(); // Wait for the transaction to be mined
+        console.log('Transaction successful:', tx.hash);
+    } catch (error) {
+        console.error('Error calling smart contract function:', error);
+    }
+};
+
+const WithdrawFunds = async () => {
+    try {
+        // Get the signer
+        const provider = new BrowserProvider(window.ethereum);
+        const signer = await provider.getSigner();
+
+        // Connect to the contract
+        const contract = new Contract(contractAddress, ethEntryABI, signer);
 
         // Call the withdraw function
         const tx = await contract.withdraw();
-        await tx.wait(); // Wait for the transaction to be mined
+        await tx.wait(); 
         console.log('Withdrawal successful:', tx.hash);
     } catch (error) {
         console.error('Error withdrawing funds:', error);
     }
-}
+};
 
 
     const BigBlock = ({title, description, url}) => (
@@ -99,7 +98,8 @@ const EthEntry = new ethers.Contract(contractAddress, ethEntryABI, provider);
 
         function scrollToFooter() {
             footerRef.current.scrollIntoView({behavior: 'smooth'});
-        }
+        } 
+        
 
         return (
 
@@ -250,7 +250,7 @@ const EthEntry = new ethers.Contract(contractAddress, ethEntryABI, provider);
                             <div className="flex lg:flex-1 items-center">
                                 <img
                                     className="h-8 w-auto mr-2"
-                                    src={"../download-modified.png"}
+                                    src={"./public/download-modified.png"}
                                     alt="Legal Ease Logo"
                                 />
                                 <Link
